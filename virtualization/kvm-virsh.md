@@ -136,7 +136,23 @@ virsh setvcpus <VM-name> <max-number-of-CPUs> [option]
     </interface>
 ```
 
+## 3.7. NIC : 
+- listing interface : 
+```
+tule@tule:~$ virsh domiflist centos7 
+ Interface   Type     Source   Model    MAC
+-----------------------------------------------------------
+ vnet0       bridge   virbr0   virtio   52:54:00:cd:1f:44
+```
+- add NIC to VM : 
+```
+virsh attach-interface --domain [tên VM] --type [loại card mạng] --source [tên card mạng] --model [model card mạng] --mac [địa chỉ mac] --config --live
+```
+- remove NIC : 
+```
+# virsh detach-interface --domain [tên VM] --type [loại card mạng] --mac [địa chỉ mac] --config --live
+```
 
-
+```
 
 
