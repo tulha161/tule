@@ -1,1 +1,1 @@
-ABOUT ẢO HÓA :D 
+ABOUT virtualization
