@@ -40,7 +40,7 @@ virt-install \
 --os-type=Linux \
 --name centos7 \
 --ram 1024 \
---vcpus=2 \
+--vcpus=1 \
 --os-variant=centos7.0 \
 --cdrom=/home/tule/Downloads/ISO/CentOS-7-x86_64-Minimal-2009.iso  \
 --network=bridge=virbr0,model=virtio \
@@ -122,18 +122,34 @@ virsh setvcpus <VM-name> <max-number-of-CPUs> [option]
 ## 3.6. limit bandwidth : 
 - Để limit bw, ta thêm phần config bandwidth vào interface trong file cấu hình xml của VM, cụ thể như sau : 
 	- vào thay đổi cấu hình : ` virsh edit centos7 `
-	- tìm phần cấu hình `interfaces` thay đổi như sau : 
+	- tìm phần cấu hình `interfaces` thay đổi như sau, giới hạn tốc độ up/down ~ 100KB/s  : 
 ```
 <interface type='bridge'>
       <mac address='52:54:00:cd:1f:44'/>
       <source bridge='virbr0'/>
       <bandwidth>
-        <inbound average='1000' peak='1000' burst='1000'/>
-        <outbound average='1000' peak='1000' burst='1000'/>
+        <inbound average='100' peak='100' burst='100'/>
+        <outbound average='100' peak='1000' burst='100'/>
       </bandwidth>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
     </interface>
+```
+
+- Kiểm tra lại bằng speedtest : 
+```
+root@localhost ~]# speedtest
+
+   Speedtest by Ookla
+
+     Server: ZHOST.VN - Ha Noi (id = 34705)
+        ISP: FPT Telecom
+    Latency:     1.96 ms   (1.18 ms jitter)
+   Download:     0.76 Mbps (data used: 364.0 kB)                               
+     Upload:     0.77 Mbps (data used: 1.1 MB)                               
+Packet Loss:     0.0%
+ Result URL: https://www.speedtest.net/result/c/fbba13ef-9a09-47c9-9172-cab626123c22
+ 
 ```
 
 ## 3.7. NIC : 
@@ -153,6 +169,50 @@ virsh attach-interface --domain [tên VM] --type [loại card mạng] --source [
 # virsh detach-interface --domain [tên VM] --type [loại card mạng] --mac [địa chỉ mac] --config --live
 ```
 
+
+## 3.8. Volume : 
+- Listing disk : 
+```
+tule@tule:~$ virsh domblklist centos7 
+ Target   Source
+-------------------------------------------------
+ vda      /var/lib/libvirt/images/centos7.qcow2
+ sda      -
 ```
 
+- Create new disk ( tạo ổ format  với dung lượng 1GB ) : 
+```
+cd /var/lib/libvirt/images 
+virsh vol-create-as default disk1 1GB --format qcow2
+or
+qemu-img create -f qcow2 disk1 1GB 
+```
+- kiểm tra disk vừa tạo : 
+```
+qemu-img info disk1
 
+```
+- Convert disk sang định dạng raw : 
+```
+qemu-img convert -f qcow2 -O  raw disk1 disk1.img
+```
+- Resize disk : 
+```
+qemu-img resize -f qcow2 disk1 2G
+```
+- Add disk to VM :
+```
+virsh attach-disk centos7 --source /var/lib/libvirt/images/disk1 --target vdb --persistent
+```
+- Remove disk from VM : 
+```
+virsh detach-disk centos7 /var/lib/libvirt/images/disk1 --persistent --config --live
+```
+
+## 3.9. Migrate : 
+- command : 
+	- `# virsh migrate [option] [DomainName] [DestinationURL]`\
+- Example : 
+	- MIgrate offline : `virsh migrate --offline --persistent centos7 quemu+ssh://virsh2@192.168.122.232/system`
+	- Migrate live : `virsh migrate --live centos7 quemu+ssh://virsh2@192.168.122.232/system`
+	
