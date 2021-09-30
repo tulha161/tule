@@ -1,0 +1,163 @@
+# OpenStack - LAB - Environment
+Chuẩn bị môi trường cần thiết 
+
+## 1. Topology
+- 3 Node : Controller, Compute, Block Storage 
+
+### Controller : 
+- 4 Core, 4GB RAM, 2 NIC 
+- Hostname : controller
+- IP NAT = 10.0.10.11
+- IP Provider = 
+
+### Compute : 
+- 4 Core , 4GB Ram , 2 NIC 
+- Hostname : compute 
+- IP NAT = 10.0.10.22
+- IP Provider = 
+
+### Block
+- 4 Core, 2GB Ram,1 NIC 
+- Hostname : block
+- IP NAT = 10.0.10.33
+
+# LAB
+
+## 2. Install NTP - Chrony
+- Cài đặt NTP để đồng bộ thời gian giữa các node, ở đây sử dụng controller node làm NTP server cho các node còn lại
+
+### Controller : 
+
+```
+# apt install chrony -y
+```
+
+- Chỉnh sửa file config : `/etc/chrony/chrony.conf` 
+	- cmt lại dòng : ` #pool 2.debian.pool.ntp.org offline iburst `
+	- thêm các dòng : 
+	```
+	server 1.vn.poo.ntp.org iburst
+	server 0.asia.pool.ntp.org iburst
+	server 3.asia.pool.ntp.org iburst
+
+	allow 10.0.10.0/24
+	```
+	
+- Restart NTP : `systemctl restart chrony`
+
+### Các node còn lại : 
+```
+# apt install chrony
+```
+- Chỉnh sửa file config : 
+	- thêm dòng : `server controller iburst`
+	- restart dịch vụ 
+- Kiểm tra tại các node : 
+```
+root@controller:/etc/chrony# chronyc sources
+210 Number of sources = 2
+MS Name/IP address         Stratum Poll Reach LastRx Last sample
+===============================================================================
+^- ntp.rol.net.mv                4   6   371    52    -12ms[  -12ms] +/-  157ms
+^* ntp-a2.nict.go.jp             1   6   377    53   -266us[-1645us] +/-   41ms
+
+----
+
+
+root@compute:/home/tule# chronyc sources
+210 Number of sources = 1
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+^? controller                    3   6    37    31   +287ms[ +287ms] +/-  12.1s
+
+```
+
+## 3. Install OpenStack Package ussuri
+- Add Repo 
+```
+# add-apt-repository cloud-archive:ussuri
+```
+- Install trên all node : 
+```
+# apt install python3-openstackclient -y 
+```
+
+## 4. Install SQL 
+- Hầu hêt Openstack sử dụng SQL DB để store dữ liệu. DB sẽ chạy trên **controller node**, có thể sử dụng MariaDB or MySQL tùy thuộc distro cài đặt.
+- Install MariaDB trên controller :
+```
+apt install mariadb-server python-pymysql
+```
+- Tạo folder config ` /etc/mysql/mariadb.conf.d/99-openstack.cnf`:
+```
+[mysqld]
+bind-address = 10.0.10.11
+
+default-storage-engine = innodb
+innodb_file_per_table = on
+max_connections = 4096
+collation-server = utf8_general_ci
+character-set-server = utf8
+```
+- Config password root mysql và restart service : 
+```
+# mysql_secure_installation
+# service mysql restart
+```
+
+## 5. Install Message queue : 
+- OpenStack sử dụng  **messange queue** để điều phối hoạt động và trạng thái giữa các service cài trên **controller node**. Trong bài này mình sử dụng **RabbitMQ**. 
+- Install RabbmitMQ :
+```
+# apt install rabbitmq-server
+```
+- Add user *openstack* : 
+```
+# rabbitmqctl add_user openstack password
+```
+
+- permit các quyền : 
+```
+# rabbitmqctl set_permissions openstack ".*" ".*" ".*"
+```
+
+## 6. Install Memcached
+- Cơ chế Identify service authentication cho các services sử dụng **Memcached** để cached token được cài đặt trên **controller** node. 
+- Install : 
+```
+# apt install memcached python3-memcache
+```
+- Edit `/etc/memcached.conf`, thay đổi IP của controller node: 
+```
+-l 10.0.0.11
+```
+- Restart dịch vụ : 
+```
+# service memcached restart
+```
+
+## 7. Install Ectd : 
+- OpenStack sử dụng Etcd - **distributed reliable key-value store** để phân phối key locking, storing configuration, keeping track of service live-ness . 
+
+- Install : 
+```
+# apt install etcd
+```
+- chỉnh sửa file cấu hình `etc/default/etcd`, set các giá trị **ETCD_INITIAL_CLUSTER, ETCD_INITIAL_ADVERTISE_PEER_URLS, ETCD_ADVERTISE_CLIENT_URLS, ETCD_LISTEN_CLIENT_URLS**
+trỏ về IP controller node, cụ thể như sau : 
+
+```
+ETCD_NAME="controller"
+ETCD_DATA_DIR="/var/lib/etcd"
+ETCD_INITIAL_CLUSTER_STATE="new"
+ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster-01"
+ETCD_INITIAL_CLUSTER="controller=http://10.0.10.11:2380"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://10.0.10.11:2380"
+ETCD_ADVERTISE_CLIENT_URLS="http://10.0.10.11:2379"
+ETCD_LISTEN_PEER_URLS="http://0.0.0.0:2380"
+ETCD_LISTEN_CLIENT_URLS="http://10.0.10.11:2379"
+```
+
+- Restart dịch vụ : `systemctl restart etcd`
+
+
