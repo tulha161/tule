@@ -158,7 +158,7 @@ openstack role add --project tu-project --user tulha myrole
 ```
 
 ## 6. Kiểm tra  
-- Request authentication token from user **admin** : 
+- Request authentication token from user **admin** for project **admin** : 
 ```
 root@controller:~# openstack --os-auth-url http://controller:5000/v3   --os-project-domain-name Default --os-user-domain-name Default   --os-project-name admin  --os-username admin token issue
 +------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -171,3 +171,19 @@ root@controller:~# openstack --os-auth-url http://controller:5000/v3   --os-proj
 +------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 ```
+
+- Request authentication token from user **tulha** for project **tu-project** :
+```
+root@controller:~# openstack --os-auth-url http://controller:5000/v3   --os-project-domain-name Default --os-user-domain-name Default   --os-project-name tu-project --os-username tulha token issue
+Password: 
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Field      | Value                                                                                                                                                                                   |
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| expires    | 2021-10-01T05:19:05+0000                                                                                                                                                                |
+| id         | gAAAAABhVow5wKh9TblW_TP0WfZdHzntckwUpGjXbZLAS2er1aI3w5k1QWSGpqRZraQzlvHo_ivr3u3hqSzwk4dJUYIyYrtq3kHVKpVZnlzWByINZgt5zhAC14HafEdjN0AFm2ZEDZjeNKXbhBvcZYsA7FwjiPKK0Li66Vd-stdlKaOVGIwVEnQ |
+| project_id | 6d007c5fac42413689fd453d895c52b8                                                                                                                                                        |
+| user_id    | 499de361940e441cbbca9b276a8de2be                                                                                                                                                        |
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+```
+
