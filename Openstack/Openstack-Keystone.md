@@ -160,6 +160,14 @@ openstack role add --project tu-project --user tulha myrole
 ## 6. Kiểm tra  
 - Request authentication token from user **admin** : 
 ```
-
+root@controller:~# openstack --os-auth-url http://controller:5000/v3   --os-project-domain-name Default --os-user-domain-name Default   --os-project-name admin  --os-username admin token issue
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Field      | Value                                                                                                                                                                                   |
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| expires    | 2021-10-01T04:56:50+0000                                                                                                                                                                |
+| id         | gAAAAABhVocCAdrqH65bdWQTB3P1h0R0xmvm82PH357Ll4D1fouf9PqrO5uvZw8nH481Z59nLK2VKQpvx_UHuV3btgRiGZZ-SZHvzQbHFVL3IWn3Qj8na6ZJIeXRoK2kui1uFZ3R14Qs9dqMiOT2d8LaTFoMSLzAyn8EQxj4Hz4IdDuimQIJuuo |
+| project_id | 7025fa4954ff44709b538031d3c4d2b7                                                                                                                                                        |
+| user_id    | 80dff9bbae8446c8af2cc082e0ded6e2                                                                                                                                                        |
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 ```
