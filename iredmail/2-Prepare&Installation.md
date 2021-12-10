@@ -37,17 +37,19 @@ bash iRedMail.sh
     - Email : https://tutrangcubeoxam.online/mail/
     - Email ( SOGo interface) : https://tutrangcubeoxam.online/SOGo/
 - Giao diện admin : 
-<1.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/1.png>
+
 ### Testing nội miền 
+
 - Tạo user và gửi test mail nội miền : 
 - Ở đây mình tạo 2 user tại dashboard admin (Add -> User) để gửi/nhận email nội miền, giao diện tạo user : 
-<2.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/2.png>
 - 2 User đã tạo như sau : 
-<3.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/3.png>
 - Sau đó, đăng nhập 2 user trên url : https://tutrangcubeoxam.online or https://tutrangcubeoxam.online/SOGo để gửi/nhận mail test :
-<4.png>
-<5.png>
-<6.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/4.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/5.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/6.png>
 
 - Các thao tác gửi/nhận mail nội miền từ 2 user đã thành công. 
 
