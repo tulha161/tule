@@ -1,4 +1,4 @@
-# Chuẩn bị các thứ để lab iRedMail :D 
+# Chuẩn bị các thứ để lab iRedMail cài All IN One 
 ## 1 . Chuẩn bị 
 - Mail server : 
     - OS : Ubuntu 20.04 LTS
@@ -53,3 +53,13 @@ bash iRedMail.sh
 
 - Các thao tác gửi/nhận mail nội miền từ 2 user đã thành công. 
 
+### Config để mail server ra được internet
+
+- Trỏ Domain về IP WAN, tạo bản ghi MX Record : 
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/7.png>
+
+- Test gửi/nhận với gmail : 
+
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/8.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/10.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/9.png>
