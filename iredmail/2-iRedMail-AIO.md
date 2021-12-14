@@ -1,5 +1,5 @@
-# Chuẩn bị các thứ để lab iRedMail cài All IN One 
-## 1 . Chuẩn bị 
+# lab iRedMail cài All IN One 
+## 1 . Các thành phần : 
 - Mail server : 
     - OS : Ubuntu 20.04 LTS
     - Cấu hình : 4c_8g
@@ -31,7 +31,7 @@ cd iRedMail-1.4.2/
 bash iRedMail.sh
 ```
 - Sau khi chạy script, sẽ có một wizzard giúp bạn dễ dàng lựa chọn các components để cài đặt (chọn nơi lưu trữ mail, db server, web server, setup domain, các loại password, v.v...). Hoàn thành xong các bước, verify lại và bắt đầu cài đặt thui :D 
-- Sau khi cài đặt OK, reboot lại server để mail server làm việc ổn nhất. 
+- Sau khi cài đặt OK, reboot lại mailserver. 
 - Tại đây, ta đã có thể truy cập vào các site  :  
     - Admin : https://tutrangcubeoxam.online/iredadmin
     - Email : https://tutrangcubeoxam.online/mail/
