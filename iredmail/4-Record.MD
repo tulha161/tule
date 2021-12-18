@@ -75,3 +75,6 @@ root@tule:~# dig dkim._domainkey.tutrangcubeoxam.online +short  TXT
 ```
 - Thử gửi mail tới gmail, xem nội dung thư gốc :
 <img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/demo2.png> 
+
+## DMARC Record 
+coming soon <3
