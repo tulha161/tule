@@ -77,4 +77,18 @@ root@tule:~# dig dkim._domainkey.tutrangcubeoxam.online +short  TXT
 <img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/demo2.png> 
 
 ## DMARC Record 
-coming soon <3
+- DMARC ( Domain-based Message Authentication, Reporting, and Conformance ) - là phương thức cho phép thiết lập một policy để  xác thực ( authentication ), Reporting ( báo cáo) và đánh giá phù hợp ( Conformance) cho email. 
+- Cụ thể, nó chỉ cho Mail Server bên nhận cách xử lý dựa trên kết quả kiểm tra của 2 bản ghi DKIM và SPF. Có thể là hủy bỏ/hoặc đưa vào quarantine ( có thể là thư rác ), đồng thời report lại cho Mail Server bên gửi nếu có một/hoặc cả 2 bản ghi trên FAIL hoặc không được khai báo. 
+- Luồng xử lý : 
+
+<DMARC.png>
+
+- Cấu trúc DMARC record : ` v=DMARC1; p=reject; sp=none; adkim=s; aspf=s; rua=mailto:dmarc@mydomain.com; ruf=mailto:dmarc@mydomain.com ` 
+- Trong đó 
+  - v : version ( hiện tại chỉ hỗ trợ DMARC1)
+  - p : policy, chỉ cho Mail Server bên nhận phải làm gì khi xác thực DMARC fail ( có thể chọn `none` - không có chỉ định gì, `quarantine` - chỉ định cách ly, cho vào spambox hoặc `reject` - chỉ định bên nhận reject mail)
+  - adkim & aspf : chỉ định mode hoạt động kiểm tra 2 bản ghi DKIM và SPF tương ứng ( có thể chọn `r` - relax mode hoặc `s` - strict mode )
+  - sp : chỉ định có áp dụng policy cho tất cả các subdomain thuộc domain gốc không ( options giống với tag `p`)
+  - rua : chỉ định email nhận báp cáo tổng quan nếu có FAIL event
+  - ruf : chỉ định email nhận báo cáo chi tiết nếu có FAIL
+
