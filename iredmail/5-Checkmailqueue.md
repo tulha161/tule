@@ -12,3 +12,17 @@ root@mail:~# mailq
 
 ```
 - Trong nội dung queue sẽ show được queue ID, Size mail, Thời gian đến SMTP server và địa chỉ gửi/nhận.
+
+# 2. Thao tác khác với mailqueue : 
+- View message : `postcat -vq <Queue-ID>`
+- Flush queue ( push to send mail in queue ) : 
+    -  Flush all mail in queue :  `postqueue -f` or `postfix flush`
+    -  Flush single mail witch <Queue-ID> : `postqueue -i <ID>`
+- Delete :  
+    - Delete all mail in queue : `postsuper -d ALL`
+    - Delete single mail in queue : `postsuper -d <Queue-ID>`
+
+Source : 
+    - https://linuxhint.com/postfix_mail_queue_management/
+    - http://www.postfix.org/QSHAPE_README.html#queues
+    
