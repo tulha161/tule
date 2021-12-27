@@ -106,5 +106,9 @@ tulha@tulha-Aspire-A715-71G:/etc$ dig _dmarc.tutrangcubeoxam.online TXT +short
 
 <img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/testdmarc.png>
 
+- Mail report từ Receiver ( google gmail ) khi nhận được mail có bản ghi DMARC = FAIL : 
+
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/fail-report.png>
+
 
 Source : https://docs.iredmail.org/setup.dns.html
