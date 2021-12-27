@@ -78,10 +78,10 @@ root@tule:~# dig dkim._domainkey.tutrangcubeoxam.online +short  TXT
 
 ## DMARC Record 
 - DMARC ( Domain-based Message Authentication, Reporting, and Conformance ) - là phương thức cho phép thiết lập một policy để  xác thực ( authentication ), Reporting ( báo cáo) và đánh giá phù hợp ( Conformance) cho email. 
-- Cụ thể, nó chỉ cho Mail Server bên nhận cách xử lý dựa trên kết quả kiểm tra của 2 bản ghi DKIM và SPF. Có thể là hủy bỏ/hoặc đưa vào quarantine ( có thể là thư rác ), đồng thời report lại cho Mail Server bên gửi nếu có một/hoặc cả 2 bản ghi trên FAIL hoặc không được khai báo. 
+- Cụ thể, nó chỉ cho Mail Server bên nhận cách xử lý dựa trên kết quả kiểm tra của 2 bản ghi DKIM và SPF. Có thể là hủy bỏ/hoặc đưa vào quarantine ( có thể là thư rác ), đồng thời report lại cho Mail Server bên gửi nếu có một/hoặc cả 2 bản ghi trên FAIL hoặc không được khai báo.
 - Luồng xử lý : 
 
-<DMARC.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/DMARC.png>
 
 - Cấu trúc DMARC record : ` v=DMARC1; p=reject; sp=none; adkim=s; aspf=s; rua=mailto:dmarc@mydomain.com; ruf=mailto:dmarc@mydomain.com ` 
 - Trong đó 
@@ -91,4 +91,18 @@ root@tule:~# dig dkim._domainkey.tutrangcubeoxam.online +short  TXT
   - sp : chỉ định có áp dụng policy cho tất cả các subdomain thuộc domain gốc không ( options giống với tag `p`)
   - rua : chỉ định email nhận báp cáo tổng quan nếu có FAIL event
   - ruf : chỉ định email nhận báo cáo chi tiết nếu có FAIL
+
+- Demo cấu hình :
+  - Cấu hình bản ghi DMARC : 
+    - Host : _dmarc
+    - Type : TXT
+    - Address : v=DMARC1; p=quarantine; adkim=s; aspf=s;   rua=mailto:fail@tutrangcubeoxam.online;  ruf=mailto:fail@tutrangcubeoxam.online;
+- Kiểm tra lại với dig : 
+```
+tulha@tulha-Aspire-A715-71G:/etc$ dig _dmarc.tutrangcubeoxam.online TXT +short
+"v=DMARC1; p=quarantine; adkim=s; aspf=s;  rua=mailto:fail@tutrangcubeoxam.online; ruf=mailto:fail@tutrangcubeoxam.online "
+```
+- Gửi thử mail test hoạt động : 
+
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/testdmarc.png>
 
