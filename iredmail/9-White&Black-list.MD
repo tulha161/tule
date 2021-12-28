@@ -20,9 +20,9 @@ root@mail:/opt/iredapd/tools# python3 wblist_admin.py --account tulha@tulha.fun 
 
 - Thử gửi mail từ tulha@vccloud.vn -> tulha@tulha.fun để test hoạt động :
     - Sent email : 
-<bl1.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/bl1.png>
     - Mail server @Vccloud trả mail cho tulha@vccloud.vn do bị chặn :
-<bl2.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/bl2.png>
     - Log chặn của Mail server bên nhận : 
 ```
 Dec 28 11:24:59 mail postfix/smtpd[3599537]: connect from capt-se165.bizflycloud.vn[103.69.195.21]
@@ -41,7 +41,7 @@ root@mail:/opt/iredapd/tools# python3 wblist_admin.py --outbound  --account tulh
 ```
 - Thử gửi mail từ tulha@tulha.fun -> tulha@vccloud.vn
     - Thử bị block ngay tại step gửi user interface : 
-<bl3.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/bl3.png>
     - Log chặn tại mail server :
 
 ```
@@ -57,7 +57,7 @@ python3 wblist_admin.py --account tulha@tulha.fun --add --whitelist tulha@vcclou
 ```
 - Giờ thử gửi/nhận tới `tulha@vccloud.vn` => OK
 
-<wl1.png>
+<img src = https://github.com/tulha161/tule/blob/main/iredmail/pic/wl1.png>
 
 - Thử gửi tới một email khác thuộc domain @vccloud.vn => FAIL
     - Trace log thấy bị chặn trên svr do outbound blacklisted
